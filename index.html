@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="icon" href="./DALL·E 2024-12-13 21.59.06 - A modern and artistic logo design for a website called 'Batterie Facile,' focused on the drum set as a musical instrument. The logo features a stylize.webp">
+    <script src="https://www.paypal.com/sdk/js?client-id=AZdgmZLvYTloU59_TY5-ZdWwEOltsZZaQfA2GN9Gcm_DyT4Yibt3o66IUtf9MyIaiK7DL41nJBYBDsMc&components=buttons"></script>
+    <style>
+        /* Réinitialiser les marges et paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Corps de la page */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #f2f6ff, #dbeafe); /* Dégradé doux bleu */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Conteneur du formulaire */
+        .checkout-form {
+            background-color: #ffffff; /* Fond blanc propre */
+            padding: 25px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Ombre douce */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Titre */
+        .checkout-form h2 {
+            color: #4a5568; /* Gris foncé */
+            font-size: 26px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Labels */
+        .checkout-form label {
+            font-weight: bold;
+            color: #2d3748; /* Gris légèrement foncé */
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        /* Champs de saisie */
+        .checkout-form input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e0; /* Bordure gris clair */
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Bouton Payer */
+        .checkout-form input[type="submit"] {
+            background-color: #2563eb; /* Bleu vif */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-form input[type="submit"]:hover {
+            background-color: #1d4ed8; /* Bleu plus foncé au survol */
+        }
+
+        /* Texte "ou" */
+        .separator {
+            margin: 15px 0;
+            color: #718096; /* Gris doux */
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            text-align: center;
+            width: 100%;
+        }
+
+        .separator::before, .separator::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: #cbd5e0; /* Lignes grises */
+        }
+
+        .separator::before {
+            left: 0;
+        }
+
+        .separator::after {
+            right: 0;
+        }
+
+        /* Bouton PayPal */
+        #paypal-button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <form class="checkout-form" action="#" method="POST">
+        <h2>Checkout</h2>
+        
+        <label for="card-number">Numéro de carte</label>
+        <input type="text" id="card-number" name="card-number" required placeholder="1234 5678 9012 3456">
+        
+        <label for="expiry-date">Date d'expiration</label>
+        <input type="text" id="expiry-date" name="expiry-date" required placeholder="MM/AA">
+        
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" name="cvv" required placeholder="123">
+        
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required placeholder="Votre nom">
+        
+        <input type="submit" value="Payer">
+
+        <!-- Texte "ou" -->
+        <div class="separator">ou</div>
+
+        <!-- Bouton PayPal -->
+        <div id="paypal-button-container"></div>
+        <script>
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '25.00' // Montant à ajuster
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction réussie : ' + details.payer.name.given_name);
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
+    </form>
+
+</body>
+</html>
